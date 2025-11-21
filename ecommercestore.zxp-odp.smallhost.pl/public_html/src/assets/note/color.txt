@@ -1,0 +1,20 @@
+A
+#209a9b
+#186e77
+#125056
+#0c353c
+#061e29
+
+B
+#20b5d9
+#177ea9
+#125170
+#122842
+#120b17
+
+C - Aqua Dream
+#add7f6
+#87bfff
+#3f8efc
+#2667ff
+#3b28cc // color font - white

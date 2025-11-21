@@ -1,0 +1,197 @@
+/* Header */
+.site-header {
+  background: #87bfff;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding-bottom: 10px;
+}
+
+/* Górny rząd headera */
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 10%;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Logo */
+.logo h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Pasek wyszukiwania */
+.search-bar {
+  flex: 1;
+  max-width: 450px;
+  display: flex;
+  border: 1px solid #87bfff;
+  border-radius: 30px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  padding: 10px 15px;
+  font-size: 0.95rem;
+  outline: none;
+  color: #1a1a1a;
+}
+
+.search-bar button {
+  border: none;
+  background-color: #2667ff;
+  padding: 0 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.search-bar button:hover {
+  background-color: #3f8efc;
+}
+
+.search-bar button img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+}
+
+/* Ikony */
+.header-icons a {
+  margin-left: 15px;
+  display: inline-block;
+}
+
+.header-icons img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+  transition: transform 0.2s ease;
+}
+
+.header-icons img:hover {
+  transform: scale(1.6);
+}
+
+/* Menu */
+.main-nav {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.main-nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  gap: 40px;
+  padding: 10px 0;
+}
+
+.main-nav li {
+  position: relative;
+}
+
+.main-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 0;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease, transform 0.6s ease;
+}
+
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background-color: #2667ff;
+  transition: width 0.3s ease;
+}
+
+.main-nav a:hover::after {
+  width: 100%;
+}
+
+.main-nav a:hover {
+  transform: scale(1.6);
+}
+
+.hero {
+  position: relative;
+  height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: url('/src/assets/images/tlo-kopia.jpg') center/cover no-repeat;
+  color: #7ab7fd;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(59,40,204,0.6), rgba(38,103,255,0.6));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #2667ff;
+  color: #ffffff;
+  padding: 14px 36px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #3f8efc;
+  transform: translateY(-2px);
+}
+
+
+
+
+
+
+
+/* Stopka */
+.site-footer {
+  text-align: center;
+  padding: 25px 0;
+  background: #3b28cc;
+  font-size: 0.9rem;
+  color: #ffffff;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
