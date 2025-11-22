@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql1.small.pl
--- Generation Time: Lis 22, 2025 at 06:54 PM
+-- Generation Time: Lis 22, 2025 at 07:34 PM
 -- Wersja serwera: 8.0.39
 -- Wersja PHP: 8.1.31
 
@@ -31,6 +31,26 @@ CREATE TABLE `category` (
   `id_category` bigint UNSIGNED NOT NULL,
   `nazwa` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `historia_zakupow`
+--
+
+CREATE TABLE `historia_zakupow` (
+  `id_historia` bigint UNSIGNED NOT NULL,
+  `id_user` bigint UNSIGNED NOT NULL,
+  `id_order` bigint UNSIGNED NOT NULL,
+  `id_product` bigint UNSIGNED NOT NULL,
+  `nazwa_produktu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `zdjecie` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cena_jednostkowa` decimal(10,2) NOT NULL,
+  `ilosc` int UNSIGNED NOT NULL,
+  `wartosc_calkowita` decimal(10,2) NOT NULL,
+  `data_zakupu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status_zamowienia` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'completed'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -77,6 +97,41 @@ CREATE TABLE `order_items` (
   `quantity` int NOT NULL DEFAULT '1',
   `price_per_unit` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Wyzwalacze `order_items`
+--
+DELIMITER $$
+CREATE TRIGGER `po_zlozeniu_zamowienia_wstaw_historie` AFTER INSERT ON `order_items` FOR EACH ROW BEGIN
+    INSERT INTO historia_zakupow (
+        id_user,
+        id_order,
+        id_product,
+        nazwa_produktu,
+        zdjecie,
+        cena_jednostkowa,
+        ilosc,
+        wartosc_calkowita,
+        data_zakupu,
+        status_zamowienia
+    )
+    SELECT 
+        o.id_user,
+        NEW.id_order,
+        NEW.id_product,
+        p.name,
+        p.zdjecie,
+        NEW.price_per_unit,
+        NEW.quantity,
+        NEW.price_per_unit * NEW.quantity,
+        o.created_at,
+        o.status
+    FROM orders o
+    JOIN product p ON p.id_product = NEW.id_product
+    WHERE o.id_order = NEW.id_order;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -165,6 +220,93 @@ CREATE TABLE `user_data` (
   `kraj` varchar(30) COLLATE utf8mb4_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci COMMENT='dane użytkowników';
 
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `widok_historia_uzytkownika`
+-- (See below for the actual view)
+--
+CREATE TABLE `widok_historia_uzytkownika` (
+`id_user` bigint unsigned
+,`liczba_zakupow` bigint
+,`laczna_wartosc` decimal(32,2)
+,`srednia_cena_produktu` decimal(14,6)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `widok_sprzedaz_kwartalna`
+-- (See below for the actual view)
+--
+CREATE TABLE `widok_sprzedaz_kwartalna` (
+`rok` int
+,`kwartal` int
+,`ilosc_sprzedanych_produktow` decimal(32,0)
+,`calkowita_kwota` decimal(32,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `widok_sprzedaz_miesieczna`
+-- (See below for the actual view)
+--
+CREATE TABLE `widok_sprzedaz_miesieczna` (
+`rok` int
+,`miesiac` int
+,`ilosc_sprzedanych_produktow` decimal(32,0)
+,`calkowita_kwota` decimal(32,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `widok_sprzedaz_roczna`
+-- (See below for the actual view)
+--
+CREATE TABLE `widok_sprzedaz_roczna` (
+`rok` int
+,`ilosc_sprzedanych_produktow` decimal(32,0)
+,`calkowita_kwota` decimal(32,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `widok_historia_uzytkownika`
+--
+DROP TABLE IF EXISTS `widok_historia_uzytkownika`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`m3573_admin`@`%.devil` SQL SECURITY DEFINER VIEW `widok_historia_uzytkownika`  AS SELECT `historia_zakupow`.`id_user` AS `id_user`, count(0) AS `liczba_zakupow`, sum(`historia_zakupow`.`wartosc_calkowita`) AS `laczna_wartosc`, avg(`historia_zakupow`.`cena_jednostkowa`) AS `srednia_cena_produktu` FROM `historia_zakupow` GROUP BY `historia_zakupow`.`id_user` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `widok_sprzedaz_kwartalna`
+--
+DROP TABLE IF EXISTS `widok_sprzedaz_kwartalna`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`m3573_admin`@`%.devil` SQL SECURITY DEFINER VIEW `widok_sprzedaz_kwartalna`  AS SELECT year(`o`.`created_at`) AS `rok`, quarter(`o`.`created_at`) AS `kwartal`, sum(`oi`.`quantity`) AS `ilosc_sprzedanych_produktow`, sum(`o`.`total_price`) AS `calkowita_kwota` FROM (`orders` `o` join `order_items` `oi` on((`o`.`id_order` = `oi`.`id_order`))) WHERE (`o`.`status` = 'completed') GROUP BY year(`o`.`created_at`), quarter(`o`.`created_at`) ORDER BY `rok` DESC, `kwartal` DESC ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `widok_sprzedaz_miesieczna`
+--
+DROP TABLE IF EXISTS `widok_sprzedaz_miesieczna`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`m3573_admin`@`%.devil` SQL SECURITY DEFINER VIEW `widok_sprzedaz_miesieczna`  AS SELECT year(`o`.`created_at`) AS `rok`, month(`o`.`created_at`) AS `miesiac`, sum(`oi`.`quantity`) AS `ilosc_sprzedanych_produktow`, sum(`o`.`total_price`) AS `calkowita_kwota` FROM (`orders` `o` join `order_items` `oi` on((`o`.`id_order` = `oi`.`id_order`))) WHERE (`o`.`status` = 'completed') GROUP BY year(`o`.`created_at`), month(`o`.`created_at`) ORDER BY `rok` DESC, `miesiac` DESC ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `widok_sprzedaz_roczna`
+--
+DROP TABLE IF EXISTS `widok_sprzedaz_roczna`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`m3573_admin`@`%.devil` SQL SECURITY DEFINER VIEW `widok_sprzedaz_roczna`  AS SELECT year(`o`.`created_at`) AS `rok`, sum(`oi`.`quantity`) AS `ilosc_sprzedanych_produktow`, sum(`o`.`total_price`) AS `calkowita_kwota` FROM (`orders` `o` join `order_items` `oi` on((`o`.`id_order` = `oi`.`id_order`))) WHERE (`o`.`status` = 'completed') GROUP BY year(`o`.`created_at`) ORDER BY `rok` DESC ;
+
 --
 -- Indeksy dla zrzutów tabel
 --
@@ -174,6 +316,16 @@ CREATE TABLE `user_data` (
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id_category`);
+
+--
+-- Indeksy dla tabeli `historia_zakupow`
+--
+ALTER TABLE `historia_zakupow`
+  ADD PRIMARY KEY (`id_historia`),
+  ADD KEY `idx_user` (`id_user`),
+  ADD KEY `idx_data` (`data_zakupu`),
+  ADD KEY `idx_order` (`id_order`),
+  ADD KEY `fk_historia_product` (`id_product`);
 
 --
 -- Indeksy dla tabeli `koszyk`
@@ -248,6 +400,12 @@ ALTER TABLE `category`
   MODIFY `id_category` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `historia_zakupow`
+--
+ALTER TABLE `historia_zakupow`
+  MODIFY `id_historia` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `koszyk`
 --
 ALTER TABLE `koszyk`
@@ -298,6 +456,14 @@ ALTER TABLE `user_data`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `historia_zakupow`
+--
+ALTER TABLE `historia_zakupow`
+  ADD CONSTRAINT `fk_historia_order` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_historia_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_historia_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `koszyk`
