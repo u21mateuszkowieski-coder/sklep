@@ -23,9 +23,7 @@
         </div>
     </section>
 
-    <footer class="site-footer">
-        <p>© 2025 EcommerceStore — Twój styl. Twoje zakupy.</p>
-    </footer>
+    <?php require('../components/footer.php'); ?>
 
     <script src="../js/script.js"></script>
 </body>

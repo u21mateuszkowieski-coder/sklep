@@ -11,19 +11,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
+  
     <?php require('../components/header.php'); ?>
 
     <section class="products-page">
         <div class="products-content">
-            <section class="section products">
-                <h1>Na Promocji</h1>
-                <div id="promoted-product-page" class="product-grid"></div>
+            <section class="section new-products">
+                <h1>Nowości</h1>
+                <div id="new-products-page" class="product-grid"></div>
             </section>
         </div>
     </section>
 
-    <?php require('../components/footer.php'); ?>
+    <footer class="site-footer">
+        <p>© 2025 EcommerceStore — Twój styl. Twoje zakupy.</p>
+    </footer>
 
     <script src="../js/script.js"></script>
 </body>

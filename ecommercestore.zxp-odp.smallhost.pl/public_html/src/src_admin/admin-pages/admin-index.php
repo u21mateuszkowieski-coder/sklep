@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel Admina — Sklep</title>
-  <link rel="stylesheet" href="/src/src_admin/assets_admin/styles_admin/admin-style.css">
+  <link rel="stylesheet" href="/src/src_admin/admin-assets/admin-styles/admin-style.css">
 </head>
 <body>
   <header class="site-header">

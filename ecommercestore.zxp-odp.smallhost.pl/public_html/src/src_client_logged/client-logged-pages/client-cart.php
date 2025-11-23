@@ -55,7 +55,9 @@
     </div>
   </section>
 
-  <?php require('../components/footer.php'); ?>
+  <footer class="site-footer">
+    <p>© 2025 EcommerceStore — Twój styl. Twoje zakupy.</p>
+  </footer>
 
   <script src="/src/assets/js/cart.js"></script>
 </body>

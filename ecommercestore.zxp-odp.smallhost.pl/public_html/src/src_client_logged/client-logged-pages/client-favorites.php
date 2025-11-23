@@ -31,12 +31,14 @@
                 <img src="/src/assets/icon/heart.svg" alt="Puste ulubione" class="empty-icon">
                 <h2>Nie masz jeszcze ulubionych produktów</h2>
                 <p>Dodaj produkty do ulubionych, klikając ikonę serca na karcie produktu</p>
-                <a href="../pages/products.php" class="btn-primary">Przeglądaj produkty</a>
+                <a href="/src/pages/products.html" class="btn-primary">Przeglądaj produkty</a>
             </div>
         </div>
     </section>
 
-    <?php require('../components/footer.php'); ?>
+    <footer class="site-footer">
+        <p>© 2025 EcommerceStore — Twój styl. Twoje zakupy.</p>
+    </footer>
 
     <script src="../js/script.js"></script>
 </body>

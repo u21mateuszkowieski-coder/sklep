@@ -76,7 +76,10 @@
     </div>
   </section>
 
-  <?php require('../components/footer.php'); ?>
+  <!-- === FOOTER === -->
+  <footer class="site-footer">
+    <p>© 2025 EcommerceStore — Dziękujemy za zakupy!</p>
+  </footer>
 
   <script src="/src/assets/js/cart.js"></script>
 </body>
