@@ -10,7 +10,6 @@
     </div>
     
     <div class="header-icons">
-      <a href="/src/pages/favorites.php"><img src="/src/assets/icon/heart.svg" alt="Ulubione"></a>
       <a href="/src/pages/cart.php"><img src="/src/assets/icon/shopping-cart.svg" alt="Koszyk"></a>
       <a href="/src/pages/login.php"><img src="/src/assets/icon/user.svg" alt="Konto"></a>
     </div>

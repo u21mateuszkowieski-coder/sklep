@@ -281,6 +281,46 @@ input[type="file"]::file-selector-button {
   font-weight: bold;
 }
 
+/* === PROMOCJE === */
+.promo-form {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fbfdff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.promo-form label {
+    font-weight: 600;
+    color: var(--primary1);
+}
+
+.promo-form input,
+.promo-form select {
+    background: white;
+}
+
+.promo-form .form-actions {
+    margin-top: 10px;
+}
+
+.promo-form button {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+}
+
+table tbody tr td strong {
+    font-weight: 700;
+}
+
+table tr:hover {
+    background: rgba(255,214,10,0.09);
+}
+
+
+
 /* === RESPONSIVE === */
 @media(max-width: 900px) {
   .admin-wrap { grid-template-columns: 1fr; }

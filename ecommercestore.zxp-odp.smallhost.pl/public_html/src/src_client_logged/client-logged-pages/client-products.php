@@ -1,3 +1,11 @@
+<?php
+  require_once '../../api/db.php';
+  
+  $sql = "SELECT nazwa, opis, cena FROM product";
+  $result = $conn->query($sql);
+  $sql_2 = "SELECT nazwa FROM category";
+  $result_2 = $conn->query($sql_2);
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -12,28 +20,58 @@
 </head>
 <body>
  
-    <?php require('../components/header.php'); ?>
+    <?php require('../client-components/client-header.php'); ?>
 
     <section class="products-page">
-        <!-- Menu kategorii po lewej -->
-        <aside class="sidebar">
-            <h2>Kategorie</h2>
-            <ul>
-                <li><a href="#" class="active">Wszystkie</a></li>
-                <li><a href="#">Moda</a></li>
-                <li><a href="#">Dom</a></li>
-                <li><a href="#">Elektronika</a></li>
-                <li><a href="#">Akcesoria</a></li>
-            </ul>
-        </aside>
+        <!-- Menu -->
+      <aside class="sidebar">
+        <h2>Kategorie</h2>
+        <ul>
+          <?php
+      if ($result_2 && $result_2->num_rows > 0) {
+        while ($row = $result_2->fetch_assoc()) {
+          echo '<li><a href="#">' . htmlspecialchars($row["nazwa"]) . '</a></li>';
+        }
+      } else {
+        echo "<li>Brak kategorii</li>";
+      }
+      ?>
+        </ul>
+      </aside>
 
-        <!-- Produkty po prawej -->
-        <div class="products-content">
-            <section class="section products">
-                <div id="products" class="product-grid"></div>
-            </section>
+    <!-- Produkty -->
+    <div class="products-content">
+        <h2>Nasze produkty</h2>
+
+        <div class="product-grid">
+        <?php
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+
+                echo '<div class="product-card">';
+                
+                echo '<img src="/src/assets/images/default-product.jpg" alt="Produkt">';
+
+                echo '<h3>' . htmlspecialchars($row["nazwa"]) . '</h3>';
+                echo '<p>' . htmlspecialchars($row["opis"]) . '</p>';
+
+                echo '<div class="product-bottom">';
+                echo '<span class="price">' . htmlspecialchars($row["cena"]) . ' zł</span>';
+                echo '<button class="btn-add-cart">Dodaj do koszyka</button>';
+                echo '</div>';
+
+                echo '</div>';
+            }
+        } else {
+            echo "<p>Brak produktów w bazie.</p>";
+        }
+
+        $conn->close();
+        ?>
         </div>
-    </section>
+    </div>
+
+</section>
 
     <footer class="site-footer">
         <p>© 2025 EcommerceStore — Twój styl. Twoje zakupy.</p>

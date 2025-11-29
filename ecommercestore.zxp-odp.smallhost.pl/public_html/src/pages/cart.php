@@ -25,7 +25,6 @@
 
       <div class="cart-content">
         <div class="cart-items">
-          <!-- Produkty dodane dynamicznie przez JS -->
         </div>
 
         <div class="cart-summary">
@@ -42,15 +41,8 @@
             <span>Łącznie do zapłaty:</span>
             <span id="total">0,00 zł</span>
           </div>
-          <a href="/src/pages/checkout.html"><button class="checkout-button">Przejdź do kasy</button></a>
+          <a href="../pages/checkout.php"><button class="checkout-button">Przejdź do kasy</button></a>
         </div>
-      </div>
-
-      <div id="empty-cart" class="empty-cart-message hidden">
-        <img src="/src/assets/icon/shopping-cart.svg" alt="Pusty koszyk" class="empty-icon">
-        <h2>Twój koszyk jest pusty</h2>
-        <p>Dodaj produkty do koszyka, aby rozpocząć zakupy</p>
-        <a href="/src/pages/products.html" class="btn-primary">Przeglądaj produkty</a>
       </div>
     </div>
   </section>

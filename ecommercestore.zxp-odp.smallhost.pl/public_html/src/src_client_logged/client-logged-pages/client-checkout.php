@@ -8,9 +8,9 @@
 </head>
 <body>
   
-  <?php require('../components/header.php'); ?>
-
-  <!-- === CHECKOUT SECTION === -->
+  <?php require('../client-components/client-header.php'); ?>
+  
+  <!-- CHECKOUT SECTION -->
   <section class="checkout-section">
     <div class="checkout-container">
 
@@ -76,7 +76,7 @@
     </div>
   </section>
 
-  <!-- === FOOTER === -->
+  <!-- FOOTER -->
   <footer class="site-footer">
     <p>© 2025 EcommerceStore — Dziękujemy za zakupy!</p>
   </footer>

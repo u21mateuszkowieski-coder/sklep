@@ -30,9 +30,9 @@
 
                 <div class="contact-item">
                     <h3>Kontakt</h3>
-                    <p>📧 E-mail: <a href="mailto:kontakt@ecommercestore.pl">kontakt@ecommercestore.pl</a></p>
-                    <p>☎️ Telefon: <a href="tel:+48600123456">+48 600 123 456</a></p>
-                    <p>🕐 Biuro obsługi: pon.–pt. 9:00–17:00</p>
+                    <p>E-mail: <a href="mailto:kontakt@ecommercestore.pl">kontakt@ecommercestore.pl</a></p>
+                    <p>Telefon: <a href="tel:+48600123456">+48 600 123 456</a></p>
+                    <p>Biuro obsługi: pon.–pt. 9:00–17:00</p>
                 </div>
             </div>
         </div>

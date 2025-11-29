@@ -95,7 +95,6 @@ html, body {
 }
 
 .logout-btn {
-  margin-left: 15px;
   padding: 8px 18px;
   background: linear-gradient(135deg, #ffd60a, #ffc300);
   color: #001d3d;
@@ -106,21 +105,21 @@ html, body {
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 10px rgba(255,195,0,0.25);
+  box-shadow: 0 4px 10px rgba(255, 195, 0, 0.25);
+  white-space: nowrap;
 }
 
 .logout-btn img {
   width: 18px;
   height: 18px;
-  filter: brightness(0) invert(0); /* ikona ciemna – pasuje do tła */
+  filter: brightness(0) invert(0);
 }
 
 .logout-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(255,195,0,0.45);
+  box-shadow: 0 6px 16px rgba(255, 195, 0, 0.45);
   background: linear-gradient(135deg, #ffe066, #ffd60a);
 }
-
 
 .header-icons img {
   width: 24px;

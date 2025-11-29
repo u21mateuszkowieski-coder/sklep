@@ -10,7 +10,6 @@
   
   <?php require('../components/header.php'); ?>
 
-  <!-- === CHECKOUT SECTION === -->
   <section class="checkout-section">
     <div class="checkout-container">
 

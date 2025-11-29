@@ -1,3 +1,13 @@
+<?php
+  require_once '../api/db.php';
+  
+  $sql_new = "
+    SELECT *
+    FROM product
+    ORDER BY data_utworzenia DESC
+    ";
+  $new_products = $conn->query($sql_new);
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -18,7 +28,34 @@
         <div class="products-content">
             <section class="section new-products">
                 <h1>Nowości</h1>
-                <div id="new-products-page" class="product-grid"></div>
+                <div id="new-products-page" class="product-grid">
+                          <?php
+        if ($new_products && $new_products->num_rows > 0) {
+            while ($row = $new_products->fetch_assoc()) {
+
+                echo '<div class="product-card">';
+
+                $img = !empty($row["zdjecie"])
+                    ? htmlspecialchars($row["zdjecie"])
+                    : "/src/assets/images/default-product.jpg";
+
+                echo '<img src="' . $img . '" alt="' . htmlspecialchars($row["nazwa"]) . '">';
+
+                echo '<h3>' . htmlspecialchars($row["nazwa"]) . '</h3>';
+                echo '<p>' . htmlspecialchars(mb_strimwidth($row["opis"], 0, 90, "...")) . '</p>';
+
+                echo '<div class="product-bottom">';
+                echo '<span class="price">' . number_format($row["cena"], 2) . ' zł</span>';
+                echo '<button class="btn-add-cart">Dodaj do koszyka</button>';
+                echo '</div>';
+
+                echo '</div>';
+            }
+        } else {
+            echo "<p>Brak produktów w bazie.</p>";
+        }
+        ?>
+                </div>
             </section>
         </div>
     </section>

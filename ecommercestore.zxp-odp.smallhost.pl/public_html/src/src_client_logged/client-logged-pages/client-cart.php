@@ -12,7 +12,7 @@
 </head>
 <body>
   
-  <?php require('../components/header.php'); ?>
+    <?php require('../client-components/client-header.php'); ?>
 
   <section class="cart-page">
     <div class="cart-container">
@@ -26,6 +26,7 @@
       <div class="cart-content">
         <div class="cart-items">
           <!-- Produkty dodane dynamicznie przez JS -->
+          <!-- Musza tutaj sie znajowac  -->
         </div>
 
         <div class="cart-summary">
@@ -42,7 +43,7 @@
             <span>Łącznie do zapłaty:</span>
             <span id="total">0,00 zł</span>
           </div>
-          <a href="/src/pages/checkout.html"><button class="checkout-button">Przejdź do kasy</button></a>
+          <a href="../client-logged-pages/client-checkout.php"><button class="checkout-button">Przejdź do kasy</button></a>
         </div>
       </div>
 
