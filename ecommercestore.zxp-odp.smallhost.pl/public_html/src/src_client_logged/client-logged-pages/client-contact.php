@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['logged']) ||
+    !isset($_SESSION['user_id']) ||
+    !isset($_SESSION['username']) ||
+    !empty($_SESSION['is_admin'])) {
+    
+    header("Location: /public/index.php");
+    exit();
+}
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/api/db.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -10,7 +25,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-logged="true" data-user-id="<?= $_SESSION['user_id'] ?>">
     
     <?php require('../client-components/client-header.php'); ?>
 
@@ -42,6 +57,5 @@
         <p>© 2025 EcommerceStore — Twój styl. Twoje zakupy.</p>
     </footer>
 
-    <script src="../js/script.js"></script>
-</body>
+<script src="/src/js/cart.js"></script></body>
 </html>
