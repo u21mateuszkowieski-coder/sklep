@@ -1,3 +1,8 @@
+<?php session_start(); ?>
+<body
+    data-logged="<?= isset($_SESSION['user_id']) ? 'true' : 'false' ?>"
+    data-user-id="<?= $_SESSION['user_id'] ?? '' ?>">
+
 <header class="site-header">
   <div class="header-container">
     <div class="logo">
