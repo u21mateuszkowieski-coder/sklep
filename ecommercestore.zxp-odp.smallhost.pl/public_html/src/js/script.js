@@ -1,25 +1,50 @@
-async function loadProducts(sectionId, count) {
-  const grid = document.getElementById(sectionId);
-  if (grid) {
-    const res = await fetch("/src/components/productCard.html");
-    const html = await res.text();
+// cart.js 
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.addEventListener("click", function(e) {
+        const btn = e.target.closest(".btn-add-cart");
+        if (!btn) return;
 
-    for (let i = 1; i <= count; i++) {
-      grid.innerHTML += html
-        .replace("Nazwa produktu", `Produkt ${i}`)
-        .replace("Opis produktu — wyjątkowa jakość i styl, stworzony z myślą o Tobie.", 
-          "Nowoczesny, elegancki produkt w wyjątkowej ofercie.")
-        .replace("../assets/images/tlo.jpg", `../src/assets/images/tlo.jpg`);
-    }
-  }
-}
 
-// Załaduj sekcje z produktami
-loadProducts("promotions", 4); // dla strony głównej
-loadProducts("new-products", 5); // dla strony głównej
-loadProducts("promoted-products", 4); // dla strony głównej
+        const item = {
+            id: btn.dataset.id || null,
+            name: btn.dataset.name || btn.closest('.product-card')?.querySelector('h3')?.textContent || "Produkt",
+            price: parseFloat(btn.dataset.price || 0),
+            image: btn.dataset.image || "default-product.jpg",
+            quantity: 1
+        };
 
-loadProducts("promoted-product-page", 46); // dla strony promocji
-loadProducts("new-products-page", 27); // dla strony nowości
+        if (!item.id) {
+            alert("Błąd: produkt nie ma ID");
+            return;
+        }
 
-loadProducts("products", 27); // dla strony wszystkich produktów
+        if (document.body.dataset.logged === "true") {
+            fetch("/src/api/cart_api.php?action=add", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(item)
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("Dodano do koszyka: " + item.name);
+                    location.reload(); 
+                } else {
+                    alert("Błąd: " + (data.message || "nie udało się dodać"));
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Błąd połączenia z serwerem");
+            });
+        } else {
+            // gość – localStorage
+            let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+            const exists = cart.find(x => x.id === item.id);
+            if (exists) exists.quantity++;
+            else cart.push(item);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert("Dodano: " + item.name+ (exists ? " (zwiększono ilość)" : ""));
+        }
+    });
+});
