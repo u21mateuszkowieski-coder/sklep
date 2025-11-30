@@ -1,4 +1,4 @@
-<?php 
+<?php
   require_once '../src/api/db.php';
   
   // Top Kategorii
@@ -11,7 +11,7 @@
   
   // PROMOCJI
 $sql_promocje = "
-    SELECT 
+    SELECT
         p.id_product,
         p.nazwa,
         p.opis,
@@ -82,18 +82,19 @@ $promocje = $conn->query($sql_promocje);
         <?php
         if ($top_categories && $top_categories->num_rows > 0) {
             while ($cat = $top_categories->fetch_assoc()) {
-              $img = !empty($cat['zdjecie'])
-                ? '/src/assets/images/' . htmlspecialchars($cat['zdjecie'])
-                : '/src/assets/images/default-category.jpg';
-              
-              echo '<div class="category-card">';
-              echo '<img src="' . $img . '" alt="' . htmlspecialchars($cat['nazwa']) . '">';
-              echo '<span>' . htmlspecialchars($cat['nazwa']) . '</span>';
-              echo '</a>';
-              echo '</div>';
+                $img = '/src/assets/images/default-category.jpg';
+                $link = "../src/pages/products.php?category=" . $cat['id_category'];
+                ?>
+                <a href="<?= $link ?>" class="category-card">
+                    <img src="<?= $img ?>" alt="<?= htmlspecialchars($cat['nazwa']) ?>">
+                    <div class="category-overlay">
+                        <span class="category-name"><?= htmlspecialchars($cat['nazwa']) ?></span>
+                    </div>
+                </a>
+                <?php
             }
         } else {
-            echo '<p>Brak kategorii do wyświetlenia.</p>';
+            echo '<p>Brak popularnych kategorii.</p>';
         }
         ?>
     </div>
@@ -109,8 +110,8 @@ $promocje = $conn->query($sql_promocje);
 
                 echo '<div class="product-card">';
 
-                $img = !empty($row["zdjecie"]) 
-                    ? htmlspecialchars($row["zdjecie"]) 
+                $img = !empty($row["zdjecie"])
+                    ? htmlspecialchars($row["zdjecie"])
                     : "/src/assets/images/default-product.jpg";
 
                 echo '<img src="' . $img . '" alt="' . htmlspecialchars($row["nazwa"]) . '">';
@@ -204,6 +205,6 @@ $promocje = $conn->query($sql_promocje);
     <p>© 2025 EcommerceStore — Twój styl. Twoje zakupy.</p>
 </footer>
 
-<script src="../src/js/script.js"></script>
+<script src="/src/assets/js/cart.js"></script>
 </body>
 </html>
