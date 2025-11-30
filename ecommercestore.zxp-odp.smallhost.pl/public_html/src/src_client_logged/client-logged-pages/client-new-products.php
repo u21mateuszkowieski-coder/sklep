@@ -1,5 +1,17 @@
 <?php
-  require_once '../../api/db.php';
+session_start();
+
+if (!isset($_SESSION['logged']) ||
+    !isset($_SESSION['user_id']) ||
+    !isset($_SESSION['username']) ||
+    !empty($_SESSION['is_admin'])) {
+    
+    header("Location: /public/index.php");
+    exit();
+}
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/api/db.php';
+
   
   $sql_new = "
     SELECT *
@@ -20,7 +32,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-logged="true" data-user-id="<?= $_SESSION['user_id'] ?>">
   
     <?php require('../client-components/client-header.php'); ?>
 
@@ -46,7 +58,14 @@
 
                 echo '<div class="product-bottom">';
                 echo '<span class="price">' . number_format($row["cena"], 2) . ' zł</span>';
-                echo '<button class="btn-add-cart">Dodaj do koszyka</button>';
+                echo '<button
+        class="btn-add-cart"
+        data-id="' . $row["id_product"] . '"
+        data-name="' . htmlspecialchars($row["nazwa"]) . '"
+        data-price="' . $row["cena"] . '"
+        data-image="' . ($row["zdjecie"] ?? 'default-product.jpg') . '">
+        Dodaj do koszyka
+      </button>';
                 echo '</div>';
 
                 echo '</div>';
@@ -64,6 +83,6 @@
         <p>© 2025 EcommerceStore — Twój styl. Twoje zakupy.</p>
     </footer>
 
-    <script src="../js/script.js"></script>
+<script src="/src/js/cart.js"></script>
 </body>
 </html>
